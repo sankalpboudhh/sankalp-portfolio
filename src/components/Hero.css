@@ -230,4 +230,5 @@
     .hero-photo-wrap { width: 200px; height: 200px; }
     .social-sidebar { display: none; }
     .hero-stats-bar { gap: 32px; padding: 28px 24px; }
+    .overlaypic {display: none;}
   }
