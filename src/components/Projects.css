@@ -1,0 +1,107 @@
+.projects {
+    padding: 100px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  
+  .projects-heading {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 56px;
+  }
+  
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+  }
+  
+  .project-card {
+    background: var(--bg);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+  
+  .project-card:hover { background: var(--bg3); }
+  
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  
+  .project-card:hover::before { transform: scaleX(1); }
+  
+  .project-num {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+  
+  .project-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+  
+  .project-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 24px;
+  }
+  
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  
+  .project-tag {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+  }
+  
+  .project-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .project-link {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    transition: opacity 0.2s, letter-spacing 0.2s;
+  }
+  
+  .project-link:hover {
+    opacity: 0.7;
+    letter-spacing: 0.12em;
+  }
+  
+  @media (max-width: 768px) {
+    .projects { padding: 80px 24px; }
+    .projects-grid { grid-template-columns: 1fr; }
+  }
