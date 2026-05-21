@@ -1,2 +1,0 @@
-# sankalp-portfolio
-own portfolio..
