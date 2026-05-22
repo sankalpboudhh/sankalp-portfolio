@@ -21,7 +21,7 @@ function About() {
             I'm a frontend developer with <strong>3+ years building enterprise
             web applications</strong> — primarily in React.js, Redux, and JSP.
             Currently at Izmo Ltd., where I've built UI modules used across
-            100+ car dealerships across India.
+            800+ car dealerships globally.
           </p>
           <p>
             Before that, I ran <strong>Dosa Fusion</strong> — a food business

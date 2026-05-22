@@ -14,7 +14,7 @@ function Contact() {
       <div className="contact-grid">
         <p className="contact-text">
           I'm currently open to frontend and full-stack developer roles —
-          in Bengaluru, Noida, or remote. If you're building something
+          in Bengaluru or remote. If you're building something
           interesting, I'd love to hear about it.
         </p>
         <div className="contact-links">
