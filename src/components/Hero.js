@@ -70,7 +70,7 @@ function Hero() {
           <div className="stat-label">Years experience</div>
         </div>
         <div className="stat">
-          <div className="stat-num">100+</div>
+          <div className="stat-num">800+</div>
           <div className="stat-label">Dealerships served</div>
         </div>
         <div className="stat">
