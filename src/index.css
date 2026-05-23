@@ -61,3 +61,7 @@ a {
   height: 1px;
   background: var(--border);
 }
+
+footer{
+  padding-bottom:60px
+}
