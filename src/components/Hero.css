@@ -242,7 +242,7 @@
         justify-content:center;
         left:50%;
         transform:translateX(-50%);
-        padding-block:10px;
+        padding-block:20px;
         gap:30px
     }
     .sidebar-line{display:none}
