@@ -223,9 +223,15 @@
   @media (max-width: 768px) {
     .hero {
       flex-direction: column-reverse;
-      align-items: flex-start;
+      align-items: center;
       padding: 120px 24px 60px;
       gap: 32px;
+    }
+    .hero-left {
+        text-align: center;
+    }
+    .hero-ctas {
+        justify-content: center;
     }
     .hero-photo-wrap { width: 200px; height: 200px; }
     .social-sidebar { display: none; }
