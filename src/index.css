@@ -62,6 +62,8 @@ a {
   background: var(--border);
 }
 
-footer{
-  padding-bottom:60px
+@media(max-width:768px){
+  footer{
+    padding-bottom:60px
+  }
 }
