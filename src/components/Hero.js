@@ -1,13 +1,47 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Typed } from 'react-typed';
 import profilePic from '../assets/profile.png';
 import overlayPic from '../assets/overlay.png'
 import './Hero.css';
+import axios from 'axios';
+
+function getTimeGreeting() {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return 'Good morning';
+  if (hour >= 12 && hour < 17) return 'Good afternoon';
+  if (hour >= 17 && hour < 21) return 'Good evening';
+  return 'Hello';
+}
 
 function Hero() {
   const typedRef = useRef(null);
+  const [greeting, setGreeting] = useState('');
+  const [location, setLocation] = useState('');
 
   useEffect(() => {
+    // Set time-based greeting immediately
+    setGreeting(getTimeGreeting());
+
+    // Fetch location
+    axios.get('https://ipapi.co/json/')
+      .then((res) => {
+        const city = res.data?.city;
+        const country = res.data?.country_name;
+        if (city) {
+          setLocation(city === 'Bengaluru' || city === 'Bangalore'
+            ? `from Bengaluru 👋`
+            : country === 'India'
+              ? `from ${city} 👋`
+              : `from ${city}, ${country} 👋`);
+        }
+      })
+      .catch(() => {
+        // silently fail — time greeting is already showing
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!typedRef.current) return;
     const typed = new Typed(typedRef.current, {
       strings: ['Frontend Developer', 'React.js Developer', 'UI Engineer', 'Ex-Founder'],
       typeSpeed: 60,
@@ -42,8 +76,16 @@ function Hero() {
 
       <section className="hero" id="hero">
         <div className="hero-left">
-          <div className="hero-tag">Available for work</div>
-          <p className="hero-greeting">Hello, my name is</p>
+
+          {/* Dynamic greeting */}
+          <div className="hero-greeting-wrap">
+            <span className="hero-greeting-text">
+              {greeting}{location ? `, visitor ${location}` : ' 👋'}
+            </span>
+          </div>
+
+          <div className="hero-tag d-none d-md-block">Available for work</div>
+          <p className="hero-intro">My name is</p>
           <h1 className="hero-name">Sankalp Boudhh</h1>
           <p className="hero-typed">
             I'm a <span className="typed-accent" ref={typedRef} />
