@@ -23,10 +23,11 @@ function Hero() {
     setGreeting(getTimeGreeting());
 
     // Fetch location
-    axios.get('https://ipapi.co/json/')
-      .then((res) => {
-        const city = res.data?.city;
-        const country = res.data?.country_name;
+    fetch('https://ipinfo.io/json?token=')
+  .then((res) => res.json())
+  .then((res) => {
+    const city = res?.city;
+    const country = res?.country;
         if (city) {
           setLocation(city === 'Bengaluru' || city === 'Bangalore'
             ? `from Bengaluru 👋`
