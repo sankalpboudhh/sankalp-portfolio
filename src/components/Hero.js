@@ -7,9 +7,10 @@ import axios from 'axios';
 
 function getTimeGreeting() {
   const hour = new Date().getHours();
-  if (hour >= 5 && hour < 12) return 'Good morning';
+  if (hour >= 4 && hour < 12) return 'Good morning';
   if (hour >= 12 && hour < 17) return 'Good afternoon';
-  if (hour >= 17 && hour < 21) return 'Good evening';
+  if (hour >= 17 && hour < 23) return 'Good evening';
+  if (hour >= 23 && hour < 4) return 'Hello Night Owl';
   return 'Hello';
 }
 
@@ -31,7 +32,7 @@ function Hero() {
         if (city) {
           setLocation(city === 'Bengaluru' || city === 'Bangalore'
             ? `from Bengaluru 👋`
-            : country === 'India'
+            : country === 'IN'
               ? `from ${city} 👋`
               : `from ${city}, ${country} 👋`);
         }
