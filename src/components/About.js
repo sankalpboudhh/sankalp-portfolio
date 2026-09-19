@@ -24,7 +24,7 @@ function About() {
             800+ car dealerships globally.
           </p>
           <p>
-            Before that, I ran <strong>Dosa Fusion</strong> <a href="https://photos.google.com/share/AF1QipNjY-moMAhXL3zK231Eu_mJZwExxfB6laKJSPqkvnOm_zLnjV8P1C6TFM-PHk61Zg?key=d3VGQ3dvb2U4RXUwdDNWTDFNcEsxT25aZks1T1hR" target='_blank'>(Media Coverage)</a> — a food business
+            Before that, I ran <strong>Dosa Fusion</strong> <a href="https://photos.google.com/share/AF1QipNjY-moMAhXL3zK231Eu_mJZwExxfB6laKJSPqkvnOm_zLnjV8P1C6TFM-PHk61Zg?key=d3VGQ3dvb2U4RXUwdDNWTDFNcEsxT25aZks1T1hR" target='_blank' style={{color:`var(--accent)`}}>(Media Coverage)</a> — a food business
             I scaled from a roadside stall to 3 outlets with 20+ staff. That
             taught me how to ship fast, own outcomes, and build things people
             actually use.
