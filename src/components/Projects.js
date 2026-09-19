@@ -1,5 +1,22 @@
 import projects from '../data/projects';
 import './Projects.css';
+import ReactGA from "react-ga4";
+
+
+const handleProjectClick = (projectName) => {
+  ReactGA.event({
+    category: "Project",
+    action: "Click",
+    label: projectName,
+  });
+};
+const handleGithubClick = (projectName) => {
+  ReactGA.event({
+    category: "Project",
+    action: "GitHub Click",
+    label: projectName,
+  });
+};
 
 function Projects() {
   return (
@@ -19,11 +36,11 @@ function Projects() {
             </div>
             <div className="project-links">
               {p.live && (
-                <a href={p.live} target="_blank" rel="noreferrer" className="project-link">
+                <a href={p.live} onClick={() => handleProjectClick(p.name)} target="_blank" rel="noreferrer" className="project-link">
                   Live demo →
                 </a>
               )}
-              <a href={p.github} target="_blank" rel="noreferrer" className="project-link">
+              <a href={p.github} onClick={() => handleGithubClick(p.name)} target="_blank" rel="noreferrer" className="project-link">
                 GitHub →
               </a>
             </div>

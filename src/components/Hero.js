@@ -4,6 +4,7 @@ import profilePic from '../assets/profile.png';
 import overlayPic from '../assets/overlay.png'
 import './Hero.css';
 import axios from 'axios';
+import ReactGA from "react-ga4";
 
 function getTimeGreeting() {
   const hour = new Date().getHours();
@@ -13,6 +14,12 @@ function getTimeGreeting() {
   if (hour >= 23 && hour < 4) return 'Hello Night Owl';
   return 'Hello';
 }
+const handleResumeDownload = () => {
+  ReactGA.event({
+    category: "Resume",
+    action: "Download",
+  });
+};
 
 function Hero() {
   const typedRef = useRef(null);
@@ -95,6 +102,7 @@ function Hero() {
           <div className="hero-ctas">
             <a href="#projects" className="btn-primary">View my work →</a>
             <a href="#contact" className="btn-outline">Get in touch</a>
+            <a href="/Sankalp_Boudhh_Resume.pdf" download onClick={handleResumeDownload} class="btn-outline">Resume</a>
           </div>
         </div>
 

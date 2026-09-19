@@ -4,8 +4,20 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
+import { useEffect } from 'react';
+import ReactGA from "react-ga4";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+
+
+
 
 function App() {
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: "/", title: "Portfolio Home" });
+  }, []);
+  
+
   return (
     <>
       <Nav />
@@ -30,7 +42,9 @@ function App() {
         color: 'var(--muted)'
       }}>
         <p>© 2026 <span style={{ color: 'var(--accent)' }}>Sankalp Boudhh</span></p>
-        <p>Built with React.js</p>
+        <p>Designed & Developed by <span style={{ color: 'var(--accent)' }}>Sankalp </span>
+        <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} />
+        </p>
       </footer>
     </>
   );
