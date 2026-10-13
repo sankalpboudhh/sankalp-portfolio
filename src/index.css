@@ -65,5 +65,6 @@ a {
 @media(max-width:768px){
   footer{
     padding-bottom:60px !important;
+    flex-direction: column !important;
   }
 }
