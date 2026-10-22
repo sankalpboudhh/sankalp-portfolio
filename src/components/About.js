@@ -18,7 +18,7 @@ function About() {
       <div className="about-grid">
         <div className="about-text">
           <p>
-            I'm a frontend developer with <strong>3+ years building enterprise
+            I'm a frontend developer with <strong>4+ years building enterprise
             web applications</strong> — primarily in React.js, Redux, and JSP.
             Currently at Izmo Ltd., where I've built UI modules used across
             800+ car dealerships globally.
