@@ -118,7 +118,7 @@ function Hero() {
 
       <div className="hero-stats-bar">
         <div className="stat">
-          <div className="stat-num">3+</div>
+          <div className="stat-num">4+</div>
           <div className="stat-label">Years experience</div>
         </div>
         <div className="stat">
