@@ -28,7 +28,9 @@
   }
   
   .hero {
-    min-height: 100vh;
+    /* min-height: 100vh; */
+    --stats-bar-h: 130px;
+    min-height: calc(100vh - var(--stats-bar-h));
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -222,6 +224,7 @@
   
   @media (max-width: 768px) {
     .hero {
+      /* --stats-bar-h: 220px;  */
       flex-direction: column-reverse;
       align-items: center;
       padding: 120px 24px 60px;

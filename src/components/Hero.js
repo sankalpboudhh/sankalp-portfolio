@@ -5,6 +5,8 @@ import overlayPic from '../assets/overlay.png'
 import './Hero.css';
 import axios from 'axios';
 import ReactGA from "react-ga4";
+import {Stat} from "./utils.js";
+
 
 function getTimeGreeting() {
   const hour = new Date().getHours();
@@ -48,6 +50,13 @@ function Hero() {
         // silently fail — time greeting is already showing
       });
   }, []);
+
+  const HERO_STATS = [
+  { n: 4,   suffix: "+", label: "Years experience" },
+  { n: 800, suffix: "+", label: "Dealerships served" },
+  { n: 6,   suffix: "",  label: "Projects shipped" },
+  { n: 20,  suffix: "+", label: "Component library" },
+];
 
   useEffect(() => {
     if (!typedRef.current) return;
@@ -116,7 +125,15 @@ function Hero() {
         </div>
       </section>
 
-      <div className="hero-stats-bar">
+
+
+
+<div className="hero-stats-bar">
+  {HERO_STATS.map((s) => (
+    <Stat key={s.label} {...s} className="stat" numClass="stat-num" labelClass="stat-label" />
+  ))}
+</div>
+      {/* <div className="hero-stats-bar">
         <div className="stat">
           <div className="stat-num">4+</div>
           <div className="stat-label">Years experience</div>
@@ -133,7 +150,7 @@ function Hero() {
           <div className="stat-num">20+</div>
           <div className="stat-label">Component library</div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
