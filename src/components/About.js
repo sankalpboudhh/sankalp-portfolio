@@ -1,6 +1,15 @@
 import { useEffect,useRef, useState } from "react";
 import "./About.css";
 import { ReactComponent as ReactIcon } from "../assets/reactimg.svg";
+import { ReactComponent as JSIcon } from "../assets/javascript.svg";
+import { ReactComponent as BootstrapIcon } from "../assets/bootstrap.svg";
+import { ReactComponent as MuiIcon } from "../assets/material-ui.svg";
+import { ReactComponent as ReduxIcon } from "../assets/redux.svg";
+import { ReactComponent as JspIcon } from "../assets/jsp.svg";
+import { ReactComponent as NodeIcon } from "../assets/nodejs.svg";
+// import { ReactComponent as ExpressIcon } from "../assets/express-js.png";
+import { ReactComponent as MongoIcon } from "../assets/mongodb.svg";
+
 import { Stat } from "./utils";
 
 const MODES = {
@@ -30,13 +39,13 @@ const MODES = {
 
 // Edit the notes to whatever you want visitors to see.
 const SKILLS = [
-  { name: "React.js", level: 90, icon: ReactIcon , note: "Inventory widget, header versions, model selectors, floating menu link — live on 800+ dealership sites." },
-  { name: "JavaScript (ES6+)", level: 88, note: "Scroll-following menus, hover interactions, and the glue behind every widget." },
-  { name: "Material UI + Bootstrap", level: 85, note: "Fast, consistent UI across the dealership platform and personal projects." },
-  { name: "Redux", level: 80, note: "Predictable state for multi-version enterprise UI modules." },
-  { name: "JSP", level: 75, note: "Rebuilt React widgets to match the existing JSP inventory widgets, pixel for pixel." },
-  { name: "Node.js + Express", level: 72, note: "Backend side of the Crio.Do full-stack projects (QKart, XFlix, QTrip, XBoard)." },
-  { name: "MongoDB", level: 65, note: "Data layer for the full-stack projects." },
+  { name: "React.js", level: 90, icons: [ReactIcon], note: "Inventory widget, header versions, model selectors, floating menu link — live on 800+ dealership sites." },
+  { name: "JavaScript (ES6+)", icons: [JSIcon], level: 88, note: "Scroll-following menus, hover interactions, and the glue behind every widget." },
+  { name: "Material UI + Bootstrap", icons: [MuiIcon, BootstrapIcon], level: 85, note: "Fast, consistent UI across the dealership platform and personal projects." },
+  { name: "Redux", level: 80,icons:[ReduxIcon], note: "Predictable state for multi-version enterprise UI modules." },
+  { name: "JSP", level: 75,icons:[JspIcon], note: "Rebuilt React widgets to match the existing JSP inventory widgets, pixel for pixel." },
+  { name: "Node.js + Express",icons:[NodeIcon], level: 72, note: "Backend side of the Crio.Do full-stack projects (QKart, XFlix, QTrip, XBoard)." },
+  { name: "MongoDB", level: 65,icons:[MongoIcon], note: "Data layer for the full-stack projects." },
 ];
 
 
@@ -120,8 +129,14 @@ export default function AboutInteractive() {
                 onClick={() => setActive(i)}
               >
                 <div className="about-row">
+                  {s.icons && (
+                    <span className="about-skill-icons">
+                      {s.icons.map((Icon, idx) => (
+                        <Icon key={idx} className="about-skill-icon" aria-hidden="true" />
+                      ))}
+                    </span>
+                  )}
                   <span>{s.name}</span>
-                  {s.icon && <s.icon className="about-skill-icon" aria-label={s.name} />}
                 </div>
                 
               </div>
