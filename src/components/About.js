@@ -27,7 +27,7 @@ const MODES = {
   founder: {
     label: "Ex-founder.",
     body: [
-      <>Before that, I ran <b>Dosa Fusion</b> — a food business I scaled from a roadside stall to 3 outlets with 20+ staff.</>,
+      <>Before that, I ran <b>Dosa Fusion</b> <a href="https://photos.google.com/share/AF1QipNjY-moMAhXL3zK231Eu_mJZwExxfB6laKJSPqkvnOm_zLnjV8P1C6TFM-PHk61Zg?key=d3VGQ3dvb2U4RXUwdDNWTDFNcEsxT25aZks1T1hR" target='_blank' style={{color:`var(--accent)`}}>(Media Coverage)</a> — a food business I scaled from a roadside stall to 3 outlets with 20+ staff.</>,
       <>That taught me about <b>ownership, leadership, and building things from scratch</b>.</>,
     ],
     stats: [

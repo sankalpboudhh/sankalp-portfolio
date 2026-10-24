@@ -136,7 +136,7 @@
 .about-skills li { padding: 8px 0 10px; cursor: pointer; opacity: .55; transition: opacity .2s, padding-left .2s; line-height: 1.4; }
 .about-skills li:hover, .about-skills li.active { opacity: 1; padding-left: 8px; }
 .about-skills li.active .about-row { color: var(--fg); }
-.about-row { display: flex;flex-direction:column; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
+.about-row { display: flex;flex-direction:column; justify-content: space-between; font-size: 12px; margin: 0 5px 6px;border:1px solid;padding:10px }
 .about-bar { height: 2px; background: var(--line); }
 .about-bar i { display: block; height: 100%; background: var(--accent); transition: width 1s cubic-bezier(.2,.8,.2,1); }
 .about-skills li.active .about-bar i { box-shadow: 0 0 10px var(--accent); }

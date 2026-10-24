@@ -221,7 +221,10 @@
     .hero-photo-wrap:hover .hero-photo-circle  {
         overflow: visible;
     }
-  
+    .social-sidebar svg {
+      height: max(3.5vw,20px);
+      width: max(4.5vw,20px);
+   }
   @media (max-width: 768px) {
     .hero {
       /* --stats-bar-h: 220px;  */
