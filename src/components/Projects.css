@@ -102,6 +102,6 @@
   }
   
   @media (max-width: 768px) {
-    .projects { padding: 80px 24px; }
+    .projects { padding: 20px 24px; }
     .projects-grid { grid-template-columns: 1fr; }
   }
