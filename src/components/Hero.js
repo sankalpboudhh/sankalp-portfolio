@@ -13,7 +13,7 @@ function getTimeGreeting() {
   if (hour >= 4 && hour < 12) return 'Good morning';
   if (hour >= 12 && hour < 17) return 'Good afternoon';
   if (hour >= 17 && hour < 23) return 'Good evening';
-  if (hour >= 23 && hour < 4) return 'Hello Night Owl';
+  if (hour >= 23 || hour < 4) return 'Hello Night Owl';
   return 'Hello';
 }
 const handleResumeDownload = () => {
