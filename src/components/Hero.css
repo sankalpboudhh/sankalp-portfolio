@@ -274,6 +274,7 @@
     color: var(--muted);
     margin-bottom: 8px;
   }
+.overlaypic{display:none !important}
   
   @keyframes fadeInDown {
     from { opacity: 0; transform: translateY(-8px); }
