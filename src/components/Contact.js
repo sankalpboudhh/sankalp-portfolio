@@ -1,9 +1,9 @@
 import './Contact.css';
 
 const links = [
-  { label: 'Email', value: 'sankalpboudhh@gmail.com', href: 'mailto:sankalpboudhh@gmail.com' },
-  { label: 'LinkedIn', value: 'in/sankalp-boudhh', href: 'https://linkedin.com/in/sankalp-boudhh' },
-  { label: 'GitHub', value: 'sankalpboudhh', href: 'https://github.com/sankalpboudhh' },
+  { label: 'Email', value: 'sankalpboudhh@gmail.com', href: 'mailto:sankalpboudhh@gmail.com', ariaLabel: 'Email me at sankalpboudhh@gmail.com' },
+  { label: 'LinkedIn', value: 'in/sankalp-boudhh', href: 'https://linkedin.com/in/sankalp-boudhh', ariaLabel: 'Visit my LinkedIn profile' },
+  { label: 'GitHub', value: 'sankalpboudhh', href: 'https://github.com/sankalpboudhh', ariaLabel: 'Visit my GitHub profile' },
 ];
 
 function Contact() {
@@ -19,7 +19,7 @@ function Contact() {
         </p>
         <div className="contact-links">
           {links.map((l) => (
-            <a href={l.href} className="contact-item" key={l.label} target="_blank" rel="noreferrer">
+            <a href={l.href} className="contact-item" key={l.label} aria-label={l.ariaLabel} target="_blank" rel="noreferrer">
               <div>
                 <div className="contact-item-label">{l.label}</div>
                 <div className="contact-item-value">{l.value}</div>
