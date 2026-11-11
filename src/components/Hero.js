@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Typed } from 'react-typed';
-import profilePic from '../assets/profile.png';
-import overlayPic from '../assets/overlay.png'
+import profilePic from '../assets/profile.webp';
+import overlayPic from '../assets/overlay.webp';
 import './Hero.css';
 import axios from 'axios';
 import ReactGA from "react-ga4";
