@@ -1,16 +1,18 @@
 import './index.css';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
-import About from './components/About';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
-import { useEffect } from 'react';
+import LazySection from './components/LazySection';
+import { lazy, useEffect } from 'react';
 import ReactGA from "react-ga4";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 
 
 
+
+const About = lazy(() => import('./components/About'));
+const Projects = lazy(() => import('./components/Projects'));
+const Contact = lazy(() => import('./components/Contact'));
 
 function App() {
   useEffect(() => {
@@ -24,11 +26,11 @@ function App() {
       <main>
         <Hero />
         <div className="section-divider" />
-        <About />
+        <LazySection id="about" minHeight={600}><About /></LazySection>
         <div className="section-divider" />
-        <Projects />
+        <LazySection id="projects" minHeight={700}><Projects /></LazySection>
         <div className="section-divider" />
-        <Contact />
+        <LazySection id="contact" minHeight={400}><Contact /></LazySection>
       </main>
       <footer style={{
         borderTop: '1px solid var(--border)',
