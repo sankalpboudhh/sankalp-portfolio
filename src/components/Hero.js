@@ -118,8 +118,8 @@ function Hero() {
         <div className="hero-right">
           <div className="hero-photo-wrap">
             <div className="hero-photo-circle " >
-            <img src={profilePic} alt="Sankalp Boudhh" className="hero-photo" fetchpriority=high ></img>
-            <img src={overlayPic} className="overlaypic  zoom"></img>
+            <img src={profilePic} alt="Sankalp Boudhh" className="hero-photo" fetchpriority="high" ></img>
+            <img src={overlayPic} alt="" className="overlaypic  zoom"></img>
             </div>
           </div>
         </div>
