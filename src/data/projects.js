@@ -1,3 +1,8 @@
+import qkartImg from '../assets/qkartimg.png';
+import xflixImg from '../assets/xflix.png';
+import mojdisImg from '../assets/mojdis.png';
+import qtripImg from '../assets/qtrip.png';
+
 const projects = [
     {
       num: '01',
@@ -6,6 +11,7 @@ const projects = [
       tags: ['React.js', 'Node.js', 'MongoDB', 'JWT', 'MUI'],
       live: 'https://qkart-sankalp.netlify.app/',
       github: 'https://github.com/sankalpboudhh/qkart-frontend-react',
+      image: qkartImg,
     },
     {
       num: '02',
@@ -14,6 +20,7 @@ const projects = [
       tags: ['React.js', 'Node.js', 'Express', 'MongoDB', 'Joi'],
       live: 'https://sankalp-xflix.netlify.app/',
       github: 'https://github.com/sankalpboudhh/xflix-react',
+      image: xflixImg,
     },
     {
       num: '03',
@@ -22,6 +29,7 @@ const projects = [
       tags: ['Vanilla JS', 'Bootstrap', 'Node.js', 'LowDB', 'REST API'],
       live: 'https://sankalp-qtrip-dynamic.netlify.app/',
       github: 'https://github.com/sankalpboudhh/qtrip-dynamic',
+      image: qtripImg,
     },
     {
       num: '04',
@@ -46,6 +54,7 @@ const projects = [
       tags: ['React.js', 'Bootstrap', 'Material UI'],
       live: 'https://mojdis.netlify.app/',
       github: 'https://github.com/sankalpboudhh/mojdis',
+      image: mojdisImg,
     },
   ];
   

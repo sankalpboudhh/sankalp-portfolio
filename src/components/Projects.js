@@ -26,6 +26,9 @@ function Projects() {
       <div className="projects-grid">
         {projects.map((p) => (
           <div className="project-card" key={p.num}>
+            {p.image && (
+              <div className="project-bg" style={{ backgroundImage: `url(${p.image})` }} />
+            )}
             <div className="project-num">{p.num} / {String(projects.length).padStart(2, '0')}</div>
             <div className="project-name">{p.name}</div>
             <p className="project-desc">{p.desc}</p>
