@@ -37,11 +37,10 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <script>
-      // Apply saved/system theme before first paint to avoid a flash
+      // Apply saved theme (default: dark) before first paint to avoid a flash
       try {
         var d = document.documentElement;
-        d.dataset.theme = localStorage.getItem('theme') ||
-          (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        d.dataset.theme = localStorage.getItem('theme') || 'dark';
         var a = localStorage.getItem('accent');
         if (a) d.dataset.accent = a;
       } catch (e) {}

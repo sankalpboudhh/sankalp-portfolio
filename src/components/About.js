@@ -70,7 +70,7 @@ export default function AboutInteractive() {
   const m = MODES[mode];
 
   return (
-    <section className="about" ref={ref}>
+    <section id="about" className="about" ref={ref}>
       <div className="about-eyebrow"><span /> ABOUT ME</div>
 
       <h2 className="about-title">
