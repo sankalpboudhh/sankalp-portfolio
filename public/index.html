@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#0d0d0d" />
     <meta
       name="description"
       content="Frontend Developer specializing in React.js. 3+ years building enterprise web apps."
@@ -36,6 +36,16 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <script>
+      // Apply saved/system theme before first paint to avoid a flash
+      try {
+        var d = document.documentElement;
+        d.dataset.theme = localStorage.getItem('theme') ||
+          (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        var a = localStorage.getItem('accent');
+        if (a) d.dataset.accent = a;
+      } catch (e) {}
+    </script>
     <title>Sankalp Boudhh | Frontend Developer</title>
   </head>
   <body>

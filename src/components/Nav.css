@@ -12,7 +12,7 @@
   
   .nav--scrolled {
     padding: 16px 48px;
-    background: rgba(13, 13, 13, 0.9);
+    background: var(--nav-bg);
     backdrop-filter: blur(12px);
     border-bottom-color: var(--border);
   }

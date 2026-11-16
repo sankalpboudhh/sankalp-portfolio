@@ -89,9 +89,6 @@
 
 
   .about {
-  --fg: #f2efe9;
-  --muted: #8a8a85;
-  --line: #2a2a2a;
   max-width: 1020px;
   margin: 0 auto;
   color: var(--muted);
@@ -106,7 +103,7 @@
 .about-toggle {
   background: none; border: 0; padding: 0; cursor: pointer; text-align: left;
   font-family: inherit; font-size: clamp(44px, 7vw, 68px); font-weight: 800; letter-spacing: -.02em;
-  color: transparent; -webkit-text-stroke: 1px #555;
+  color: transparent; -webkit-text-stroke: 1px var(--stroke);
   transition: color .3s, -webkit-text-stroke-color .3s, transform .3s;
 }
 .about-toggle:hover { transform: translateX(8px); }
@@ -144,7 +141,7 @@
 .about-note {
   margin-top: 24px; padding: 16px 18px; min-height: 84px;
   border: 1px solid var(--line); border-left: 2px solid var(--accent);
-  background: #111; color: var(--fg); font-size: 13px; line-height: 1.7;
+  background: var(--note-bg); color: var(--fg); font-size: 13px; line-height: 1.7;
   animation: about-in .3s ease both;
 }
 .about-prompt { color: var(--accent); margin-right: 6px; }
@@ -158,7 +155,7 @@
 .about-skill-icon {
   width: 50px;
   height: 50px;
-  color: #f2efe9;
+  color: var(--fg);
   transition: color 0.2s;
   margin-inline-end:12px
 }

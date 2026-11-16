@@ -16,8 +16,45 @@
   --muted: #888882;
   --accent: #c8f560;
   --accent2: #a8d940;
+  --fg: #f2efe9;
+  --line: #2a2a2a;
+  --nav-bg: rgba(13, 13, 13, 0.9);
+  --note-bg: #111;
+  --stroke: #555;
+  --on-accent: #0d0d0d;
+  --strong: #fff;
   --font-display: 'Syne', sans-serif;
   --font-mono: 'DM Mono', monospace;
+}
+
+/* ---- Light theme ---- */
+:root[data-theme="light"] {
+  --bg: #f6f4ef;
+  --bg2: #ecE9e2;
+  --bg3: #e2dfd7;
+  --border: rgba(0, 0, 0, 0.10);
+  --border2: rgba(0, 0, 0, 0.18);
+  --text: #1a1a18;
+  --muted: #5f5f5a;
+  --fg: #1a1a18;
+  --line: #d6d3cb;
+  --nav-bg: rgba(246, 244, 239, 0.9);
+  --note-bg: #ecE9e2;
+  --stroke: #999;
+  --on-accent: #fff;
+  --strong: #000;
+  --accent: #4d7c0f;
+  --accent2: #3f6a0b;
+}
+
+/* ---- Accent colours (dark values, then darker light-theme values) ---- */
+:root[data-accent="orange"] { --accent: #ffa94d; --accent2: #f08c00; }
+:root[data-accent="blue"]   { --accent: #6cb6ff; --accent2: #4a9bea; }
+:root[data-theme="light"][data-accent="orange"] { --accent: #c2570c; --accent2: #a84a09; }
+:root[data-theme="light"][data-accent="blue"]   { --accent: #1c64c4; --accent2: #1752a3; }
+
+body {
+  transition: background-color 0.3s, color 0.3s;
 }
 
 html {

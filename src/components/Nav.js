@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Nav.css';
+import ThemeToggle from './ThemeToggle';
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -18,6 +19,7 @@ function Nav() {
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
+      <ThemeToggle />
     </nav>
   );
 }
