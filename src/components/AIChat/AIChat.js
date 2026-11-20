@@ -24,6 +24,10 @@ const ERRORS = {
 // the panel, so focus the dialog itself there instead.
 const prefersInputFocus = () => window.matchMedia?.('(pointer: fine)')?.matches ?? true;
 
+// Random id grouping one conversation in the anonymous review log; not tied to the visitor.
+const newConversationId = () =>
+  window.crypto?.randomUUID?.() ?? `c-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+
 let nextId = 0;
 const newId = () => `m${++nextId}`;
 
@@ -58,14 +62,14 @@ function Linkified({ text }) {
   });
 }
 
-async function requestReply(message, history) {
+async function requestReply(message, history, conversationId) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), CLIENT_TIMEOUT_MS);
   try {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, history }),
+      body: JSON.stringify({ message, history, conversationId }),
       signal: controller.signal,
     });
     let data = {};
@@ -88,6 +92,7 @@ function AIChat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const conversationId = useRef(null);
 
   const launcherRef = useRef(null);
   const panelRef = useRef(null);
@@ -128,11 +133,12 @@ function AIChat() {
     if (!message || loading || message.length > MAX_CHARS) return;
 
     const history = buildHistory(messages);
+    conversationId.current ??= newConversationId();
     setMessages((prev) => [...prev, { id: newId(), role: 'user', content: message }]);
     setInput('');
     setLoading(true);
 
-    const result = await requestReply(message, history);
+    const result = await requestReply(message, history, conversationId.current);
     setMessages((prev) => [
       ...prev,
       result.reply
@@ -159,6 +165,7 @@ function AIChat() {
   const resetConversation = () => {
     setMessages([]);
     setInput('');
+    conversationId.current = null;
     focusPanel();
   };
 
@@ -270,6 +277,7 @@ function AIChat() {
               <span>Enter to send · Shift+Enter for a new line</span>
               <span aria-live="polite">{input.length}/{MAX_CHARS}</span>
             </p>
+            <p className="aichat-notice">Questions are saved anonymously to help Sankalp to improve.</p>
           </form>
         </div>
       )}

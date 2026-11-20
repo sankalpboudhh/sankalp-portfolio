@@ -57,7 +57,11 @@ test('shows the intro and suggested questions; a suggestion sends that question'
   fireEvent.click(suggestion);
 
   expect(await screen.findByText('He has 4 years of experience.')).toBeInTheDocument();
-  expect(sentBodies()[0]).toEqual({ message: 'What projects has he built?', history: [] });
+  expect(sentBodies()[0]).toEqual({
+    message: 'What projects has he built?',
+    history: [],
+    conversationId: expect.stringMatching(/^[A-Za-z0-9-]{8,64}$/),
+  });
   expect(screen.queryByRole('group', { name: 'Suggested questions' })).not.toBeInTheDocument();
 });
 
@@ -170,4 +174,28 @@ test('enforces the 300-character limit on the input', () => {
   render(<AIChat />);
   openChat();
   expect(input()).toHaveAttribute('maxLength', '300');
+});
+
+test('shows the anonymous-logging notice', () => {
+  render(<AIChat />);
+  openChat();
+  expect(screen.getByText(/saved anonymously/i)).toBeInTheDocument();
+});
+
+test('keeps one conversation id per conversation and starts a new one after reset', async () => {
+  let n = 0;
+  global.fetch = jest.fn(() => reply({ reply: `answer ${++n}` }));
+  render(<AIChat />);
+  openChat();
+  typeAndEnter('one');
+  await screen.findByText('answer 1');
+  typeAndEnter('two');
+  await screen.findByText('answer 2');
+  fireEvent.click(screen.getByRole('button', { name: 'Start a new conversation' }));
+  typeAndEnter('three');
+  await screen.findByText('answer 3');
+
+  const [a, b, c] = sentBodies().map((body) => body.conversationId);
+  expect(a).toBe(b);
+  expect(c).not.toBe(a);
 });

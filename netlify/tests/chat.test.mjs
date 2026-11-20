@@ -2,7 +2,7 @@
 // Run: npm run test:functions
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createChatHandler, quotaDate, cleanReply } from "../functions/chat.mjs";
+import { createChatHandler, quotaDate, cleanReply, redactPII, isUnanswered } from "../functions/chat.mjs";
 
 const ENV = {
   GEMINI_API_KEY: "test-gemini-key",
@@ -16,13 +16,20 @@ function geminiOk(text = "Sankalp is a frontend developer.", finishReason = "STO
   });
 }
 
-function setup({ evalResult = 1, evalError, fetchImpl, env = ENV, timeoutMs } = {}) {
-  const calls = { eval: [], fetch: [] };
+function setup({ evalResult = 1, evalError, fetchImpl, env = ENV, timeoutMs, logError } = {}) {
+  const calls = { eval: [], fetch: [], rpush: [], expire: [] };
   const redis = {
     async eval(script, keys, args) {
       calls.eval.push({ keys, args });
       if (evalError) throw evalError;
       return evalResult;
+    },
+    async rpush(key, value) {
+      if (logError) throw logError;
+      calls.rpush.push({ key, entry: JSON.parse(value) });
+    },
+    async expire(key, ttl) {
+      calls.expire.push({ key, ttl });
     },
   };
   const fetchSpy = async (url, opts) => {
@@ -232,4 +239,59 @@ test("truncated replies end at a complete sentence; markdown bold is stripped", 
     cleanReply("First sentence here. Second sentence is also complete. Third is cut mid", true),
     "First sentence here. Second sentence is also complete. …",
   );
+});
+
+// ---- Anonymous transcript log ----
+
+test("successful exchange is logged with masked PII, conversation id, and 90-day expiry", async () => {
+  const { handler, calls } = setup();
+  const res = await handler(post({
+    message: "Email me at jane.doe@corp.com or +91 98765 43210 about React",
+    conversationId: "3f2a9c1e-1111-4222-8333-944455556666",
+    history: [{ role: "user", content: "hi" }, { role: "assistant", content: "hello" }],
+  }), { ip: "198.51.100.1" });
+  assert.equal(res.status, 200);
+  assert.equal(calls.rpush.length, 1);
+  const { key, entry } = calls.rpush[0];
+  assert.match(key, /^portfolio-chat:log:\d{4}-\d{2}-\d{2}$/);
+  assert.equal(entry.q, "Email me at [email] or [phone] about React");
+  assert.equal(entry.a, "Sankalp is a frontend developer.");
+  assert.equal(entry.c, "3f2a9c1e-1111-4222-8333-944455556666");
+  assert.equal(entry.n, 2);
+  assert.equal(entry.u, false);
+  assert.ok(!JSON.stringify(entry).includes("198.51.100.1"), "IP must never be logged");
+  assert.deepEqual(calls.expire[0], { key, ttl: 90 * 24 * 60 * 60 });
+});
+
+test("unanswered replies are flagged; invalid conversation ids are dropped", async () => {
+  const fetchImpl = async () => geminiOk("I don't have that information. Would you like to know about his projects?");
+  const { handler, calls } = setup({ fetchImpl });
+  await handler(post({ message: "notice period?", conversationId: "<script>" }));
+  assert.equal(calls.rpush[0].entry.u, true);
+  assert.equal(calls.rpush[0].entry.c, null);
+});
+
+test("logging uses waitUntil when available and a logging failure never breaks the reply", async () => {
+  const { handler } = setup({ logError: new Error("redis down") });
+  let scheduled;
+  const res = await handler(post({ message: "hi" }), { waitUntil: (p) => { scheduled = p; } });
+  assert.equal(res.status, 200);
+  assert.ok(scheduled instanceof Promise);
+  await scheduled; // resolves (error swallowed)
+});
+
+test("failed and rejected requests are not logged", async () => {
+  for (const opts of [{ evalResult: -1 }, { fetchImpl: async () => new Response("{}", { status: 500 }) }]) {
+    const { handler, calls } = setup(opts);
+    await handler(post({ message: "hi" }));
+    assert.equal(calls.rpush.length, 0);
+  }
+});
+
+test("PII masking and unanswered detection", () => {
+  assert.equal(redactPII("call 9039217667 or mail a@b.co"), "call [phone] or mail [email]");
+  assert.equal(redactPII("built in 2015, 3 outlets, 20+ staff"), "built in 2015, 3 outlets, 20+ staff");
+  assert.ok(isUnanswered("I don't have information about his notice period."));
+  assert.ok(isUnanswered("Sankalp's salary is not mentioned in his portfolio."));
+  assert.ok(!isUnanswered("He has 4 years of React experience."));
 });

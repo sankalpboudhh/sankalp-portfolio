@@ -26,6 +26,22 @@ Changing a variable in Netlify only takes effect on the next deploy.
 - If Redis is unreachable the function returns 503 and does **not** call Gemini.
 - Local `netlify dev` uses the same Upstash database, so local testing counts toward the live quota.
 
+## Conversation log (for reviewing what visitors ask)
+
+- Each successful exchange is appended to `portfolio-chat:log:YYYY-MM-DD` (IST day) and **auto-deleted after 90 days**.
+- Stored: time, question, reply, a random per-conversation id, turn number, and an `unanswered` flag (reply said it lacked the info).
+- **Not stored:** IP addresses, user agents, or anything identifying. Emails and phone numbers typed by visitors are masked as `[email]` / `[phone]`.
+- Written after the response is sent (`context.waitUntil`); a logging failure never affects the reply. Rejected or failed requests are not logged.
+- The chat panel tells visitors: "Questions are saved anonymously to help improve this portfolio."
+
+Review it locally:
+
+```sh
+npm run chat:review                       # last 30 days, unanswered first
+npm run chat:review -- --days 7
+npm run chat:review -- --csv chats.csv    # export everything (keep the CSV out of git)
+```
+
 ## Local development
 
 ```sh

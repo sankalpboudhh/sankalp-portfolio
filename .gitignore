@@ -26,3 +26,6 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
+
+# Exported chat transcripts (npm run chat:review -- --csv ...)
+*.csv

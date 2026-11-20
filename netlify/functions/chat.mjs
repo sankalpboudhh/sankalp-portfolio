@@ -18,6 +18,7 @@ const GLOBAL_DAILY_LIMIT = 50;
 const IP_DAILY_LIMIT = 10;
 const KEY_TTL_SECONDS = 48 * 60 * 60;
 const QUOTA_TIMEZONE = "Asia/Kolkata";
+const LOG_TTL_SECONDS = 90 * 24 * 60 * 60; // reviewed transcripts auto-delete after 90 days
 
 const SYSTEM_INSTRUCTION = `You are the portfolio assistant for Sankalp Boudhh.
 
@@ -87,7 +88,44 @@ export function validateBody(body) {
 
   const recent = history.slice(-MAX_HISTORY_MESSAGES);
   while (recent.length && recent[0].role !== "user") recent.shift(); // start on a user turn
-  return { message, history: recent };
+
+  // Optional random per-conversation id (used only to group logged exchanges).
+  const conversationId =
+    typeof body.conversationId === "string" && /^[A-Za-z0-9-]{8,64}$/.test(body.conversationId)
+      ? body.conversationId
+      : null;
+
+  return { message, history: recent, conversationId };
+}
+
+// ---- Anonymous transcript log (for the site owner's review) ----
+// Stores question, reply, time, a random conversation id, and an "unanswered" flag.
+// Never stores IPs or user agents; emails and phone numbers in questions are masked.
+
+/** Mask email addresses and phone-number-like digit runs. */
+export function redactPII(text) {
+  return text
+    .replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, "[email]")
+    .replace(/\+?\d[\d\s().-]{7,}\d/g, (m) => (m.replace(/\D/g, "").length >= 8 ? "[phone]" : m));
+}
+
+/** Did the assistant say it lacked the information? */
+export function isUnanswered(reply) {
+  return /\b(don't|do not|doesn't|does not) have (that |this |any |specific )?(information|details)|\bnot (mentioned|included|available) in (his|the|sankalp's) (portfolio|knowledge)/i.test(reply);
+}
+
+async function logExchange(redis, { prefix, now, conversationId, turn, message, reply }) {
+  const key = `${prefix}:log:${quotaDate(now)}`;
+  const entry = JSON.stringify({
+    t: now.toISOString(),
+    c: conversationId,
+    n: turn,
+    q: redactPII(message),
+    a: reply,
+    u: isUnanswered(reply),
+  });
+  await redis.rpush(key, entry);
+  await redis.expire(key, LOG_TTL_SECONDS);
 }
 
 // Atomically admit a request against the global and (optional) per-IP daily caps.
@@ -235,11 +273,23 @@ export function createChatHandler(options = {}) {
       return fail(503, MSG.unavailable);
     }
 
-    const result = await callGemini({ apiKey, ...parsed, fetchImpl, timeoutMs });
+    const result = await callGemini({ apiKey, message: parsed.message, history: parsed.history, fetchImpl, timeoutMs });
     switch (result.kind) {
-      case "ok":
+      case "ok": {
         if (result.truncated) console.warn("chat: reply hit the output token limit");
+        // Log after responding when the runtime supports it; a logging failure never affects the reply.
+        const logged = logExchange(redis, {
+          prefix: keyPrefix,
+          now: now(),
+          conversationId: parsed.conversationId,
+          turn: Math.floor(parsed.history.length / 2) + 1,
+          message: parsed.message,
+          reply: result.reply,
+        }).catch(() => console.error("chat: transcript log failed"));
+        if (typeof context.waitUntil === "function") context.waitUntil(logged);
+        else await logged;
         return json(200, { reply: result.reply });
+      }
       case "timeout":
         console.error("chat: Gemini timed out");
         return fail(504, MSG.timeout);
