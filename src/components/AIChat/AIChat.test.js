@@ -171,6 +171,21 @@ test('URLs in replies become safe external links; markup is not rendered', async
   expect(screen.getByText(/<img src=x onerror=alert\(1\)>/)).toBeInTheDocument(); // shown as text
 });
 
+test('[label](url) renders as a labelled link; javascript: URLs are never linked', async () => {
+  global.fetch = jest.fn(() => reply({
+    reply: 'See the [Dosa Fusion media coverage](https://photos.google.com/share/abc). [Email him](mailto:a@b.co). Also [bad](javascript:alert(1)).',
+  }));
+  render(<AIChat />);
+  openChat();
+  typeAndEnter('dosa?');
+  const link = await screen.findByRole('link', { name: 'Dosa Fusion media coverage' });
+  expect(link).toHaveAttribute('href', 'https://photos.google.com/share/abc');
+  expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  expect(screen.getByRole('link', { name: 'Email him' })).toHaveAttribute('href', 'mailto:a@b.co');
+  expect(screen.queryByRole('link', { name: 'bad' })).not.toBeInTheDocument();
+  expect(screen.getAllByRole('link')).toHaveLength(2);
+});
+
 test('enforces the 300-character limit on the input', () => {
   render(<AIChat />);
   openChat();

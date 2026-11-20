@@ -49,6 +49,12 @@ const knowledge = {
       "Node.js / Express": "Backend side of the Crio.Do full-stack projects (QKart, XFlix, QTrip, XBoard).",
       MongoDB: "Data layer for the full-stack projects.",
     },
+    strengthsByArea: [
+      { area: "Frontend development", tech: ["React.js", "JavaScript ES6+", "HTML5", "CSS3"], context: "Professional enterprise development and personal projects." },
+      { area: "UI architecture", tech: ["Reusable components", "Redux", "Bootstrap", "Material UI"], context: "Reusable component library and multi-version UI modules at Izmo." },
+      { area: "Backend development", tech: ["Node.js", "Express.js", "MongoDB", "REST APIs", "JWT"], context: "Crio.Do full-stack fellowship and personal projects (not his professional role)." },
+      { area: "Development practices", tech: ["Git", "Postman", "Agile", "Code review", "Unit testing"], context: "Git, Postman, Agile and code review in professional work; unit testing practised during the Crio.Do fellowship." },
+    ],
   },
 
   experience: [
@@ -60,12 +66,41 @@ const knowledge = {
       note: "Promoted from Associate Software Engineer in Apr 2026.",
       points: [
         "Engineered and maintained responsive UI modules for an enterprise car dealership platform, supporting inventory management and appointment scheduling workflows used across 800+ dealerships.",
-        "Migrated 15+ legacy JSP views to modular React.js components, reducing code duplication by 40% and cutting cross-team feature delivery time by 25%.",
-        "Developed a reusable component library of 20+ UI elements, cutting development time for new features by 30%.",
-        "Optimized 3+ critical frontend modules, reducing inventory list render time by 35% and improving page load performance for 800+ dealership users.",
-        "Collaborated with a 4-member backend team on 10+ REST API integrations, resolving data-flow bottlenecks that improved response times by 20% in high-traffic dealership modules.",
         "Point of contact for migration processes.",
         "Handles quick-fix requests from other teams, including Support, Design, and Marcom.",
+      ],
+      keyContributions: [
+        {
+          area: "Legacy JSP to React migration",
+          challenge: "Legacy JSP views needed to be migrated into modular React components.",
+          work: "Migrated 15+ legacy JSP views to modular React.js components.",
+          impact: ["Reduced code duplication by 40%.", "Cut cross-team feature delivery time by 25%."],
+          skills: ["React.js", "JavaScript", "JSP", "Component architecture"],
+        },
+        {
+          area: "Reusable component architecture",
+          work: "Developed a reusable component library of 20+ UI elements.",
+          impact: ["Cut development time for new features by 30%."],
+          skills: ["React.js", "JavaScript", "UI architecture"],
+        },
+        {
+          area: "Inventory performance optimization",
+          work: "Optimized 3+ critical frontend modules.",
+          impact: ["Reduced inventory list render time by 35%.", "Improved page load performance for 800+ dealership users."],
+          skills: ["React.js", "JavaScript", "Performance optimization"],
+        },
+        {
+          area: "API integration",
+          work: "Collaborated with a 4-member backend team on 10+ REST API integrations.",
+          impact: ["Resolved data-flow bottlenecks.", "Improved response times by 20% in high-traffic dealership modules."],
+          skills: ["REST APIs", "JavaScript", "Frontend–backend integration"],
+        },
+      ],
+      dayToDay: [
+        "Inventory widgets: frontend development and maintenance of inventory-related UI modules.",
+        "Interactive UI components: sliders, navigation menus, filters, and reusable interface elements.",
+        "API integration: connecting frontend components to REST APIs and handling dynamic data updates.",
+        "Legacy UI: working with JSP-based views while modernizing functionality with React.",
       ],
     },
     {
@@ -124,6 +159,9 @@ const knowledge = {
       tech: ["React.js", "Node.js", "MongoDB", "JWT", "MUI"],
       live: "https://qkart-sankalp.netlify.app/",
       github: "https://github.com/sankalpboudhh/qkart-frontend-react",
+      category: "Full-stack e-commerce",
+      keyLearning: "Building a complete e-commerce flow across frontend state, authentication, backend APIs, and database integration.",
+      bestShowcaseFor: ["React", "Full-stack development", "E-commerce"],
     },
     {
       name: "XFlix",
@@ -131,6 +169,9 @@ const knowledge = {
       tech: ["React.js", "Node.js", "Express", "MongoDB", "Joi"],
       live: "https://sankalp-xflix.netlify.app/",
       github: "https://github.com/sankalpboudhh/xflix-react",
+      category: "Full-stack video streaming",
+      keyLearning: "Developing an interactive media application with filtering, search, and backend integration.",
+      bestShowcaseFor: ["React", "Node.js", "REST APIs"],
     },
     {
       name: "QTrip",
@@ -138,6 +179,9 @@ const knowledge = {
       tech: ["Vanilla JS", "Bootstrap", "Node.js", "LowDB", "REST API"],
       live: "https://sankalp-qtrip-dynamic.netlify.app/",
       github: "https://github.com/sankalpboudhh/qtrip-dynamic",
+      category: "Travel booking",
+      keyLearning: "Building interactive travel booking workflows with JavaScript and Bootstrap.",
+      bestShowcaseFor: ["JavaScript", "DOM manipulation", "Frontend development"],
     },
     {
       name: "Auth System",
@@ -178,9 +222,31 @@ const knowledge = {
   certifications: ["Python for Everybody — Coursera / University of Michigan"],
   languages: ["English — Full Professional Proficiency", "Hindi — Native / Bilingual Proficiency"],
 
+  careerJourney: [
+    { period: "2015–2020", chapter: "Entrepreneurship", summary: "Founded and ran Dosa Fusion in Bhopal, scaling it from a roadside stall to 3 outlets with a team of 20+." },
+    { period: "2020–2021", chapter: "Career transition", summary: "After closing the business during COVID-19, relocated to Bengaluru and taught himself programming, starting with Python." },
+    { period: "2021–2022", chapter: "Software development training", summary: "Completed an intensive full-stack fellowship at Crio.Do, building projects including QKart, XFlix, and QTrip." },
+    { period: "2022–present", chapter: "Professional engineering", summary: "Joined Izmo as an Associate Software Engineer and was promoted to Software Engineer – UI Developer in April 2026." },
+  ],
+
+  faq: [
+    { q: "What is Sankalp's strongest technical area?", a: "Frontend development — React.js, JavaScript, reusable component architecture, and enterprise UI engineering." },
+    { q: "Does Sankalp have backend experience?", a: "Yes — Node.js, Express.js, MongoDB, REST APIs, and JWT authentication through his full-stack fellowship and personal projects. His professional role is frontend-focused." },
+    { q: "Has Sankalp worked on production applications?", a: "Yes. At Izmo he develops and maintains enterprise UI modules for inventory management and appointment scheduling, used across 800+ dealerships." },
+    { q: "Has Sankalp completed his engineering degree?", a: "No. He studied B.E. Computer Science at NRI Institute of Information Science & Technology (2010–2014) and left before completing it to build Dosa Fusion." },
+    { q: "What makes Sankalp different from other frontend developers?", a: "He combines enterprise frontend engineering with real entrepreneurship: he has shipped production software and also built, operated, and scaled a business." },
+  ],
+
   answerGuidance: [
-    "The Dosa Fusion founder story is what makes Sankalp stand out. When asked about his background, what makes him different, leadership, ownership, or Dosa Fusion, highlight it and share the photo album / media coverage link.",
+    "The Dosa Fusion founder story is what makes Sankalp stand out. When asked about his background, what makes him different, leadership, ownership, career transition, or Dosa Fusion, highlight it and share the photo album / media coverage link.",
     "Share the outlet Google Maps links when asked where Dosa Fusion was or about its outlets.",
+    "When asked why Sankalp should be hired, combine his engineering achievements with his entrepreneurial background.",
+    "When discussing professional experience, prioritise Izmo and its measurable contributions, explained as challenge → work → impact.",
+    "When discussing React, distinguish professional enterprise work at Izmo from fellowship and personal projects.",
+    "When discussing backend technologies, make clear they come from full-stack projects, not his professional frontend role.",
+    "Never claim he completed his B.E. degree.",
+    "Never invent salary expectations, notice period, interview availability, or employment details that are not provided; offer his contact details instead.",
+    "Use numbers only as stated in this knowledge base. Never exaggerate metrics.",
   ],
 
   thisPortfolio: "Built with React and Bootstrap, hosted on Netlify, with Netlify Functions for a visitor counter (Upstash Redis) and this AI assistant (Google Gemini). Supports light/dark themes and accent colours.",

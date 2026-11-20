@@ -50,18 +50,26 @@ function buildHistory(messages) {
 
 // Render plain text with http(s) URLs as links. Everything stays a React text
 // node, so model output can never inject markup.
+// Supports "[label](https://… | mailto:… | tel:…)" (shown as the label) and bare https:// URLs.
+// Only these schemes are ever linked, so javascript: and data: URLs stay plain text.
+const LINK_RE = /\[([^\]\n]{1,100})\]\(((?:https?:\/\/|mailto:|tel:)[^\s)]+)\)|(https?:\/\/[^\s<>()]+)/g;
+
 function Linkified({ text }) {
-  const parts = text.split(/(https?:\/\/[^\s<>()]+)/g);
-  return parts.map((part, i) => {
-    if (i % 2 === 0) return part;
-    const url = part.replace(/[.,;:!?'"]+$/, '');
-    const trailing = part.slice(url.length);
-    return (
-      <span key={i}>
-        <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>{trailing}
-      </span>
-    );
-  });
+  const out = [];
+  let last = 0;
+  for (const m of text.matchAll(LINK_RE)) {
+    if (m.index > last) out.push(text.slice(last, m.index));
+    if (m[2]) {
+      out.push(<a key={m.index} href={m[2]} target="_blank" rel="noopener noreferrer">{m[1]}</a>);
+    } else {
+      const url = m[3].replace(/[.,;:!?'"]+$/, '');
+      out.push(<a key={m.index} href={url} target="_blank" rel="noopener noreferrer">{url}</a>);
+      if (url.length < m[3].length) out.push(m[3].slice(url.length));
+    }
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) out.push(text.slice(last));
+  return out;
 }
 
 async function requestReply(message, history, conversationId) {
