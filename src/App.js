@@ -7,6 +7,7 @@ import ReactGA from "react-ga4";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import VisitCounter from './components/VisitCounter';
+import AIChat from './components/AIChat/AIChat';
 
 
 
@@ -50,6 +51,7 @@ function App() {
         <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} />
         </p>
       </footer>
+      <AIChat />
     </>
   );
 }
