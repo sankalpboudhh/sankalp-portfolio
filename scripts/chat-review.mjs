@@ -3,6 +3,8 @@
 //   npm run chat:review                  last 30 days, unanswered questions first
 //   npm run chat:review -- --days 7
 //   npm run chat:review -- --csv chats.csv   also export every exchange to CSV
+//   npm run chat:dashboard               open a visual dashboard (chat-review.html) in the browser
+//   npm run chat:dashboard -- --days 90
 //
 // Read-only. Needs UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN in .env.
 import { writeFileSync } from "node:fs";
@@ -34,6 +36,19 @@ const parse = (raw) => {
   try { return JSON.parse(raw); } catch { return null; }
 };
 const entries = lists.flat().map(parse).filter(Boolean).sort((a, b) => a.t.localeCompare(b.t));
+
+if (args.includes("--html")) {
+  const { renderDashboard } = await import("./chat-dashboard.mjs");
+  const out = opt("out", "chat-review.html");
+  writeFileSync(out, renderDashboard({ entries, dates, generatedAt: new Date().toISOString() }));
+  console.log(`Dashboard: ${entries.length} question(s) over ${days} day(s) → ${out}`);
+  if (!args.includes("--no-open")) {
+    const { execFile } = await import("node:child_process");
+    const cmd = process.platform === "darwin" ? "open" : process.platform === "win32" ? "explorer" : "xdg-open";
+    execFile(cmd, [out], () => {});
+  }
+  process.exit(0);
+}
 
 const ist = (iso) =>
   new Date(iso).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" });

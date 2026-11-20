@@ -37,10 +37,14 @@ Changing a variable in Netlify only takes effect on the next deploy.
 Review it locally:
 
 ```sh
-npm run chat:review                       # last 30 days, unanswered first
+npm run chat:dashboard                    # visual dashboard in your browser (last 30 days)
+npm run chat:dashboard -- --days 90
+npm run chat:review                       # same data in the terminal, unanswered first
 npm run chat:review -- --days 7
 npm run chat:review -- --csv chats.csv    # export everything (keep the CSV out of git)
 ```
+
+The dashboard is a local file (`chat-review.html`, git-ignored) — nothing is hosted, so visitor questions stay private. Re-run the command to refresh it.
 
 ## Local development
 

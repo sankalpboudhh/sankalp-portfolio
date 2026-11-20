@@ -29,3 +29,6 @@ yarn-error.log*
 
 # Exported chat transcripts (npm run chat:review -- --csv ...)
 *.csv
+
+# Generated chat review dashboard (contains visitor questions)
+chat-review*.html

@@ -29,6 +29,7 @@
     "test": "react-scripts test",
     "test:functions": "node --test netlify/tests/*.test.mjs",
     "chat:review": "node --env-file=.env scripts/chat-review.mjs",
+    "chat:dashboard": "node --env-file=.env scripts/chat-review.mjs --html",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
