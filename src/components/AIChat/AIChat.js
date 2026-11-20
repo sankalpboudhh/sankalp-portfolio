@@ -2,6 +2,8 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import './AIChat.css';
 
 const MAX_CHARS = 300;
+const NUDGE_KEY = 'aichat-nudge-dismissed';
+const NUDGE_DELAY_MS = 2500;
 const MAX_HISTORY_MESSAGES = 8; // latest 4 exchanges; the server enforces this too
 const CLIENT_TIMEOUT_MS = 25000;
 
@@ -93,6 +95,7 @@ function AIChat() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const conversationId = useRef(null);
+  const [nudge, setNudge] = useState(false);
 
   const launcherRef = useRef(null);
   const panelRef = useRef(null);
@@ -114,6 +117,25 @@ function AIChat() {
     else if (wasOpen.current) launcherRef.current?.focus();
     wasOpen.current = open;
   }, [open, focusPanel]);
+
+  // Greeting bubble: appears shortly after load, once per browser session,
+  // and never again after the visitor opens the chat or dismisses it.
+  useEffect(() => {
+    let seen = false;
+    try { seen = sessionStorage.getItem(NUDGE_KEY) === '1'; } catch {}
+    if (seen) return undefined;
+    const timer = setTimeout(() => setNudge(true), NUDGE_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const dismissNudge = useCallback(() => {
+    setNudge(false);
+    try { sessionStorage.setItem(NUDGE_KEY, '1'); } catch {}
+  }, []);
+
+  useEffect(() => {
+    if (open) dismissNudge();
+  }, [open, dismissNudge]);
 
   // Keep the newest message in view.
   useEffect(() => {
@@ -282,20 +304,32 @@ function AIChat() {
         </div>
       )}
 
+      {nudge && !open && (
+        <div className="aichat-nudge">
+          <button type="button" className="aichat-nudge-body" onClick={() => setOpen(true)}>
+            <strong>Hi there 👋</strong>
+            <span>I'm Sankalp's AI assistant. Ask me about his experience, projects, or skills.</span>
+          </button>
+          <button type="button" className="aichat-nudge-close" onClick={dismissNudge} aria-label="Dismiss greeting">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+          </button>
+        </div>
+      )}
+
       <button
         ref={launcherRef}
         type="button"
-        className="aichat-launcher"
+        className={`aichat-launcher${open ? ' aichat-launcher--open' : ''}`}
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
-        aria-label={open ? 'Close chat' : "Chat with Sankalp's portfolio assistant"}
       >
         {open ? (
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
         ) : (
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" /></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" /><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01" /></svg>
         )}
+        <span className="aichat-launcher-label">{open ? 'Close chat' : "Ask Sankalp's AI"}</span>
       </button>
     </div>
   );

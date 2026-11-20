@@ -10,7 +10,7 @@ function deferred() {
   return { promise, resolve };
 }
 
-const openChat = () => fireEvent.click(screen.getByRole('button', { name: /chat with sankalp/i }));
+const openChat = () => fireEvent.click(screen.getByRole('button', { name: /ask sankalp's ai/i }));
 const input = () => screen.getByLabelText('Your question');
 const typeAndEnter = (text) => {
   fireEvent.change(input(), { target: { value: text } });
@@ -19,6 +19,7 @@ const typeAndEnter = (text) => {
 const sentBodies = () => global.fetch.mock.calls.map(([, opts]) => JSON.parse(opts.body));
 
 beforeEach(() => {
+  sessionStorage.clear();
   global.fetch = jest.fn(() => reply({ reply: 'He has 4 years of experience.' }));
 });
 afterEach(() => {
@@ -27,7 +28,7 @@ afterEach(() => {
 
 test('opens and closes; launcher reflects aria-expanded and focus moves sensibly', async () => {
   render(<AIChat />);
-  const launcher = screen.getByRole('button', { name: /chat with sankalp/i });
+  const launcher = screen.getByRole('button', { name: /ask sankalp's ai/i });
   expect(launcher).toHaveAttribute('aria-expanded', 'false');
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
@@ -46,7 +47,7 @@ test('Escape closes the panel and returns focus to the launcher', async () => {
   openChat();
   fireEvent.keyDown(input(), { key: 'Escape' });
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-  await waitFor(() => expect(screen.getByRole('button', { name: /chat with sankalp/i })).toHaveFocus());
+  await waitFor(() => expect(screen.getByRole('button', { name: /ask sankalp's ai/i })).toHaveFocus());
 });
 
 test('shows the intro and suggested questions; a suggestion sends that question', async () => {
@@ -198,4 +199,35 @@ test('keeps one conversation id per conversation and starts a new one after rese
   const [a, b, c] = sentBodies().map((body) => body.conversationId);
   expect(a).toBe(b);
   expect(c).not.toBe(a);
+});
+
+describe('greeting bubble', () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => jest.useRealTimers());
+
+  test('launcher has a visible text label', () => {
+    render(<AIChat />);
+    expect(screen.getByRole('button', { name: "Ask Sankalp's AI" })).toBeVisible();
+  });
+
+  test('appears after a short delay and opens the chat when clicked', () => {
+    render(<AIChat />);
+    expect(screen.queryByText(/I'm Sankalp's AI assistant/)).not.toBeInTheDocument();
+    act(() => { jest.advanceTimersByTime(2500); });
+    fireEvent.click(screen.getByText(/I'm Sankalp's AI assistant/));
+    expect(screen.getByRole('dialog', { name: 'Portfolio assistant' })).toBeInTheDocument();
+    expect(screen.queryByText(/I'm Sankalp's AI assistant/)).not.toBeInTheDocument();
+  });
+
+  test('can be dismissed and stays hidden for the rest of the session', () => {
+    const { unmount } = render(<AIChat />);
+    act(() => { jest.advanceTimersByTime(2500); });
+    fireEvent.click(screen.getByRole('button', { name: 'Dismiss greeting' }));
+    expect(screen.queryByText(/I'm Sankalp's AI assistant/)).not.toBeInTheDocument();
+    unmount();
+
+    render(<AIChat />);
+    act(() => { jest.advanceTimersByTime(5000); });
+    expect(screen.queryByText(/I'm Sankalp's AI assistant/)).not.toBeInTheDocument();
+  });
 });
