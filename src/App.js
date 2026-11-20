@@ -6,6 +6,7 @@ import { lazy, useEffect } from 'react';
 import ReactGA from "react-ga4";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import VisitCounter from './components/VisitCounter';
 
 
 
@@ -44,6 +45,7 @@ function App() {
         color: 'var(--muted)'
       }}>
         <p>© 2026 <span style={{ color: 'var(--accent)' }}>Sankalp Boudhh</span></p>
+        <VisitCounter />
         <p>Designed & Developed by <span style={{ color: 'var(--accent)' }}>Sankalp </span>
         <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} />
         </p>
