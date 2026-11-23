@@ -23,6 +23,7 @@ const MODES = {
       { n: 4, suffix: "+", label: "years shipping" },
       { n: 800, suffix: "+", label: "dealerships" },
     ],
+    note: "Izmo Ltd. · 2021–present · React UI modules live on 800+ dealership sites",
   },
   founder: {
     label: "Ex-founder.",
@@ -34,6 +35,7 @@ const MODES = {
       { n: 3, suffix: "", label: "outlets" },
       { n: 20, suffix: "+", label: "staff" },
     ],
+    note: "Dosa Fusion · 2015–2020 · Zomato & IHM recognition",
   },
 };
 
@@ -67,7 +69,8 @@ export default function AboutInteractive() {
     return () => io.disconnect();
   }, []);
 
-  const m = MODES[mode];
+  const modeKeys = Object.keys(MODES);
+  const modeIndex = modeKeys.indexOf(mode) + 1;
 
   return (
     <section id="about" className="about" ref={ref}>
@@ -85,39 +88,59 @@ export default function AboutInteractive() {
           </button>
         ))}
       </h2>
-      <p className="about-hint">↑ hover or tap a word</p>
+      <p className="about-hint">
+        <span className="about-hint-index">
+          {String(modeIndex).padStart(2, "0")} / {String(modeKeys.length).padStart(2, "0")}
+        </span>
+        <span className="about-hint-divider" />
+        ↑ hover or tap a word
+      </p>
 
       <div className="about-grid">
-        <div className="about-story" key={mode}>
-          {m.body.map((p, i) => <p key={i}>{p}</p>)}
-          <div className="about-stats">
-            {m.stats.map((s) => <Stat key={s.label} {...s} k={mode} />)}
-          </div>
-          <div className="about-links">
-            <a
-              href="https://github.com/sankalpboudhh"
-              target="_blank"
-              rel="noreferrer"
-              className="about-link"
-            >
-              GitHub ↗
-            </a>
-            <a
-              href="https://linkedin.com/in/sankalp-boudhh"
-              target="_blank"
-              rel="noreferrer"
-              className="about-link"
-            >
-              LinkedIn ↗
-            </a>
-            <a
-              href="https://www.crio.do/learn/portfolio/sankalpboudhh/"
-              target="_blank"
-              rel="noreferrer"
-              className="about-link"
-            >
-              Crio Portfolio ↗
-            </a>
+        <div className="about-story">
+         
+          <div className="about-story-stack">
+            {Object.entries(MODES).map(([key, v]) => (
+              <div
+                key={key}
+                className={`about-story-panel ${mode === key ? "on" : ""}`}
+                aria-hidden={mode !== key}
+              >
+                {v.body.map((p, i) => <p key={i}>{p}</p>)}
+                <div className="about-stats">
+                  {v.stats.map((s) => <Stat key={s.label} {...s} k={mode} />)}
+                </div>
+                <div className="about-note about-note--story">
+                  <span className="about-prompt">&gt;</span> {v.note}
+                </div>
+                <div className="about-links">
+                  <a
+                    href="https://github.com/sankalpboudhh"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="about-link"
+                  >
+                    GitHub ↗
+                  </a>
+                  <a
+                    href="https://linkedin.com/in/sankalp-boudhh"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="about-link"
+                  >
+                    LinkedIn ↗
+                  </a>
+                  <a
+                    href="https://www.crio.do/learn/portfolio/sankalpboudhh/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="about-link"
+                  >
+                    Crio Portfolio ↗
+                  </a>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 

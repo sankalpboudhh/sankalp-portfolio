@@ -61,10 +61,24 @@
     pointer-events: none;
   }
 
+  /* Scrim: near-solid behind the text (left), image shows through on the right */
+  .project-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+      var(--bg) 0%,
+      color-mix(in srgb, var(--bg) 88%, transparent) 45%,
+      color-mix(in srgb, var(--bg) 40%, transparent) 100%);
+  }
+
   .project-card:hover .project-bg {
-    opacity: 0.15;
+    opacity: 1;
     transform: scale(1);
   }
+
+  /* Blur/desaturate only the image, not the scrim (::after sits above it) */
+  .project-bg { filter: blur(2px) saturate(0.6) brightness(0.75); }
   
   .project-num {
     font-size: 11px;
@@ -124,19 +138,26 @@
     letter-spacing: 0.12em;
   }
 
-  .project-card:hover .project-desc,
+  .project-card:hover .project-desc {
+    color: var(--text);
+  }
+
+  /* Solid fills so tags and buttons don't dissolve into the image */
   .project-card:hover .project-tag {
-    color: var(--strong);
-    border-color: var(--strong);
+    color: var(--text);
+    border-color: var(--border2);
+    background: var(--bg);
   }
 
   .project-card .project-links a {
     border: 1px solid transparent;
     padding: 5px 10px;
+    transition: opacity 0.2s, letter-spacing 0.2s, background 0.2s, border-color 0.2s;
   }
 
   .project-card:hover .project-links a {
     border-color: currentColor;
+    background: color-mix(in srgb, var(--accent) 12%, var(--bg));
   }
   
   @media (max-width: 768px) {

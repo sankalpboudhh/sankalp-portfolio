@@ -48,7 +48,7 @@ function App() {
         <p>© 2026 <span style={{ color: 'var(--accent)' }}>Sankalp Boudhh</span></p>
         <VisitCounter />
         <p>Designed & Developed by <span style={{ color: 'var(--accent)' }}>Sankalp </span>
-        <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} />
+        {/* <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} /> */}
         </p>
       </footer>
       <AIChat />

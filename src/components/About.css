@@ -89,7 +89,7 @@
 
 
   .about {
-  max-width: 1020px;
+  
   margin: 0 auto;
   color: var(--muted);
   font-size: 14px;
@@ -108,15 +108,29 @@
 }
 .about-toggle:hover { transform: translateX(8px); }
 .about-toggle.on { color: var(--fg); -webkit-text-stroke-color: var(--fg); }
-.about-hint { margin: 10px 0 0; font-size: 11px; opacity: .6; }
+.about-hint { margin: 14px 0 0; display: flex; align-items: center; gap: 12px; font-size: 11px; line-height: 1; }
+.about-hint-index { color: var(--accent); letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+.about-hint-divider { width: 24px; height: 1px; background: var(--line); }
 
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 36px; }
-.about-skill-blocks { display: flex; flex-wrap:wrap; }
-.about-skill-block{flex:1 1 30%}
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 36px; align-items: start; }
+
+/* tighter 3x3 grid so it doesn't outweigh the headline */
+.about-skill-blocks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.about-skill-block { cursor: pointer; }
 
 @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
 
-.about-story { animation: about-in .45s ease both; }
+/* stacked modes: the tallest one sets the height, so nothing jumps on toggle */
+.about-story-stack { display: grid; }
+.about-story-panel {
+  grid-area: 1 / 1;
+  opacity: 0; visibility: hidden; transform: translateY(6px);
+  transition: opacity .25s ease, transform .25s ease, visibility 0s .25s;
+}
+.about-story-panel.on {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
 .about-story p { margin: 0 0 20px; }
 .about-story b { color: var(--fg); font-weight: 600; }
 @keyframes about-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
@@ -125,7 +139,7 @@
 .about-stat-n { color: var(--accent); font-size: 32px; font-weight: 700; line-height: 1.2; }
 .about-stat-l { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; line-height: 1.4; }
 
-.about-links { display: flex; gap: 22px; font-size: 12px; }
+.about-links { display: flex; gap: 22px; font-size: 12px; line-height: 1.4; }
 .about-links a { color: var(--accent); text-decoration: none; letter-spacing: .06em; }
 .about-links a:hover { text-decoration: underline; }
 
@@ -133,17 +147,27 @@
 .about-skills li { padding: 8px 0 10px; cursor: pointer; opacity: .55; transition: opacity .2s, padding-left .2s; line-height: 1.4; }
 .about-skills li:hover, .about-skills li.active { opacity: 1; padding-left: 8px; }
 .about-skills li.active .about-row { color: var(--fg); }
-.about-row { display: flex;flex-direction:column; justify-content: space-between;align-items:center; font-size: max(0.63vw, 10px); margin: 6px;border:1px solid var(--border2);padding:10px 0;height:90%;aspect-ratio:7/6;}
+.about-row {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  padding: 14px 10px; border: 1px solid var(--border2);
+  font-size: max(0.63vw, 10px); line-height: 1.3; text-align: center;
+  transition: border-color .2s;
+}
+.about-skill-block.active .about-row { border-color: var(--accent); }
 .about-bar { height: 2px; background: var(--line); }
 .about-bar i { display: block; height: 100%; background: var(--accent); transition: width 1s cubic-bezier(.2,.8,.2,1); }
 .about-skills li.active .about-bar i { box-shadow: 0 0 10px var(--accent); }
 
 .about-note {
-  margin-top: 24px; padding: 16px 18px; min-height: 84px;
+  /* fixed height (fits 3 lines) so the right column doesn't resize on hover */
+  margin-top: 24px; padding: 16px 18px; min-height: 7.5em; box-sizing: border-box;
   border: 1px solid var(--line); border-left: 2px solid var(--accent);
   background: var(--note-bg); color: var(--fg); font-size: 13px; line-height: 1.7;
   animation: about-in .3s ease both;
 }
+/* per-mode callout under the story text */
+.about-note--story { margin: 0 0 20px; min-height: 0; animation: none; }
+.about-story .about-links { margin-top: 0; }
 .about-prompt { color: var(--accent); margin-right: 6px; }
 .about-cursor { display: inline-block; width: 7px; height: 14px; margin-left: 4px; vertical-align: -2px; background: var(--accent); animation: about-blink 1s steps(1) infinite; }
 @keyframes about-blink { 50% { opacity: 0; } }
@@ -153,11 +177,10 @@
 }
 .about-skill-icons { display: flex; }
 .about-skill-icon {
-  width: 50px;
-  height: 50px;
+  width: 36px;
+  height: 36px;
   color: var(--fg);
   transition: color 0.2s;
-  margin-inline-end:12px
 }
 .about-skill-block.active .about-skill-icon {
   color: var(--accent);
